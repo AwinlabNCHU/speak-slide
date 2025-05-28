@@ -43,7 +43,7 @@ npm run dev
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+source venv/bin/activate  # On Windows: .\venv\bin\activate.bat
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```

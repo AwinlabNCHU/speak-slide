@@ -5,12 +5,6 @@ frontend/.vite/
 frontend/.env
 frontend/.env.*
 
-# Python (backend)
-backend/venv/
-backend/__pycache__/
-backend/.env
-backend/.env.*
-
 # General Python
 *.pyc
 *.pyo
