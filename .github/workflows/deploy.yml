@@ -31,6 +31,8 @@ jobs:
         run: |
           cd frontend
           npm run build
+        env:
+          NODE_ENV: production
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
@@ -38,3 +40,4 @@ jobs:
           folder: frontend/dist
           branch: gh-pages
           clean: true
+          commit-message: "Deploy Vue.js application"
