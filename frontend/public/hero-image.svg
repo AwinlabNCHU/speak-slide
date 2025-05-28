@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Elements -->
+    <circle cx="400" cy="300" r="250" fill="#1E293B" opacity="0.5"/>
+    <circle cx="400" cy="300" r="200" fill="#1E293B" opacity="0.3"/>
+    
+    <!-- Neural Network Nodes -->
+    <g stroke="#3B82F6" stroke-width="2">
+        <!-- Input Layer -->
+        <circle cx="200" cy="200" r="15" fill="#1E293B"/>
+        <circle cx="200" cy="300" r="15" fill="#1E293B"/>
+        <circle cx="200" cy="400" r="15" fill="#1E293B"/>
+        
+        <!-- Hidden Layer -->
+        <circle cx="400" cy="150" r="15" fill="#1E293B"/>
+        <circle cx="400" cy="300" r="15" fill="#1E293B"/>
+        <circle cx="400" cy="450" r="15" fill="#1E293B"/>
+        
+        <!-- Output Layer -->
+        <circle cx="600" cy="300" r="15" fill="#1E293B"/>
+    </g>
+    
+    <!-- Neural Network Connections -->
+    <g stroke="#3B82F6" stroke-width="1.5" opacity="0.6">
+        <!-- Input to Hidden -->
+        <line x1="215" y1="200" x2="385" y2="150"/>
+        <line x1="215" y1="200" x2="385" y2="300"/>
+        <line x1="215" y1="200" x2="385" y2="450"/>
+        
+        <line x1="215" y1="300" x2="385" y2="150"/>
+        <line x1="215" y1="300" x2="385" y2="300"/>
+        <line x1="215" y1="300" x2="385" y2="450"/>
+        
+        <line x1="215" y1="400" x2="385" y2="150"/>
+        <line x1="215" y1="400" x2="385" y2="300"/>
+        <line x1="215" y1="400" x2="385" y2="450"/>
+        
+        <!-- Hidden to Output -->
+        <line x1="415" y1="150" x2="585" y2="300"/>
+        <line x1="415" y1="300" x2="585" y2="300"/>
+        <line x1="415" y1="450" x2="585" y2="300"/>
+    </g>
+    
+    <!-- Animated Pulse Effect -->
+    <circle cx="600" cy="300" r="20" stroke="#3B82F6" stroke-width="2" opacity="0.5">
+        <animate attributeName="r" values="20;30;20" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Decorative Elements -->
+    <g fill="#3B82F6" opacity="0.2">
+        <circle cx="100" cy="100" r="5"/>
+        <circle cx="700" cy="500" r="5"/>
+        <circle cx="650" cy="150" r="5"/>
+        <circle cx="150" cy="450" r="5"/>
+    </g>
+</svg> 
