@@ -26,13 +26,33 @@ jobs:
         run: |
           cd frontend
           npm ci
+          npm install -g @vue/cli
 
       - name: Build
         run: |
           cd frontend
+          # Clean any existing build
+          rm -rf dist
+          # Install dependencies again to ensure everything is up to date
+          npm install
+          # Build the project
           npm run build
+          # Verify the build output
+          echo "Listing contents of dist directory:"
+          ls -la dist/
         env:
           NODE_ENV: production
+          VITE_BASE_URL: "/Vue-practice/"
+
+      - name: Debug - List all files
+        run: |
+          echo "Current directory structure:"
+          pwd
+          ls -la
+          echo "Frontend directory structure:"
+          ls -la frontend/
+          echo "Dist directory structure:"
+          ls -la frontend/dist/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
