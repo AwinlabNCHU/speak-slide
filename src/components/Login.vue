@@ -55,11 +55,13 @@
 
 <script>
 import { ref } from 'vue'
-import axios from 'axios'
+import { mockAuth } from '../mock/auth'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Login',
   setup() {
+    const router = useRouter()
     const username = ref('')
     const password = ref('')
     const loading = ref(false)
@@ -70,20 +72,20 @@ export default {
       error.value = ''
 
       try {
-        const formData = new FormData()
-        formData.append('username', username.value)
-        formData.append('password', password.value)
-
-        const response = await axios.post('http://localhost:8000/token', formData)
-        const { access_token } = response.data
+        console.log('Attempting login with:', { username: username.value, password: password.value })
+        const response = await mockAuth.login(username.value, password.value)
+        console.log('Login response:', response)
+        const { access_token } = response
 
         // Store the token
         localStorage.setItem('token', access_token)
+        console.log('Token stored in localStorage')
         
-        // Redirect to home page or dashboard
-        window.location.href = '/'
+        // Use Vue Router to navigate to home page
+        router.push('/')
       } catch (err) {
-        error.value = err.response?.data?.detail || 'An error occurred during login'
+        console.error('Login error:', err)
+        error.value = err.message || 'An error occurred during login'
       } finally {
         loading.value = false
       }

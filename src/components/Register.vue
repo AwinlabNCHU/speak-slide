@@ -67,7 +67,7 @@
 
 <script>
 import { ref } from 'vue'
-import axios from 'axios'
+import { mockAuth } from '../mock/auth'
 
 export default {
   name: 'Register',
@@ -83,16 +83,11 @@ export default {
       error.value = ''
 
       try {
-        const response = await axios.post('http://localhost:8000/register', {
-          email: email.value,
-          username: username.value,
-          password: password.value
-        })
-
+        await mockAuth.register(email.value, username.value, password.value)
         // Redirect to login page after successful registration
         window.location.href = '/login'
       } catch (err) {
-        error.value = err.response?.data?.detail || 'An error occurred during registration'
+        error.value = err.message || 'An error occurred during registration'
       } finally {
         loading.value = false
       }

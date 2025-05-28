@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import Home from "../components/Home.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/login",
+    name: "Home",
+    component: Home,
+    meta: { requiresAuth: true },
   },
   {
     path: "/login",
@@ -28,8 +31,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem("token");
 
-  if (to.path !== "/login" && to.path !== "/register" && !isAuthenticated) {
+  if (to.meta.requiresAuth && !isAuthenticated) {
     next("/login");
+  } else if (
+    (to.path === "/login" || to.path === "/register") &&
+    isAuthenticated
+  ) {
+    next("/");
   } else {
     next();
   }
