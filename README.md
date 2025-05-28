@@ -1,54 +1,60 @@
 # AI Service Landing Page
 
-A modern, responsive landing page for an AI service built with Vue.js and FastAPI.
+A modern landing page for AI services built with Vue.js and Vite.
 
 ## Project Structure
+
 ```
 .
-├── frontend/          # Vue.js frontend application
-└── backend/          # FastAPI backend application
+├── src/            # Source files
+│   ├── components/ # Vue components
+│   ├── router/     # Vue Router configuration
+│   └── plugins/    # Vue plugins
+├── public/         # Static assets
+├── dist/          # Build output
+└── ...
 ```
 
 ## Features
-- Modern, responsive design
-- Interactive UI components
-- FastAPI backend with AI service integration
-- Real-time data processing
-- RESTful API endpoints
 
-## Tech Stack
-- Frontend:
-  - Vue.js 3
-  - Vite
-  - TailwindCSS
-  - Vue Router
-  - Axios
+- Modern Vue 3 with Composition API
+- Vite for fast development and building
+- Tailwind CSS for styling
+- Vuetify for UI components
+- Responsive design
+- SEO friendly
 
-- Backend:
-  - FastAPI
-  - Python 3.8+
-  - Uvicorn
-  - Pydantic
+## Setup
 
-## Getting Started
-
-### Frontend Setup
+1. Install dependencies:
 ```bash
-cd frontend
 npm install
+```
+
+2. Start development server:
+```bash
 npm run dev
 ```
 
-### Backend Setup
+3. Build for production:
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\bin\activate.bat
-pip install -r requirements.txt
-uvicorn main:app --reload
+npm run build
 ```
 
 ## Development
-- Frontend runs on: http://localhost:5173
-- Backend runs on: http://localhost:8000
-- API documentation: http://localhost:8000/docs 
+
+- Development server runs on: http://localhost:5173
+- Hot Module Replacement (HMR) enabled
+- ESLint for code quality
+- Prettier for code formatting
+
+## Production
+
+- Optimized build with Vite
+- Minified assets
+- Tree-shaking enabled
+- Environment variables support
+
+## License
+
+MIT

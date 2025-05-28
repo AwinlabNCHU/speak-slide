@@ -40,8 +40,6 @@ jobs:
           echo "Current directory structure:"
           pwd
           ls -la
-          echo "Frontend directory structure:"
-          ls -la 
           echo "Dist directory structure:"
           ls -la dist/
 

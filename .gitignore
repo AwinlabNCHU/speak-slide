@@ -1,9 +1,9 @@
-# Node.js (frontend)
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-frontend/.env
-frontend/.env.*
+# Node.js
+node_modules/
+dist/
+.vite/
+.env
+.env.*
 
 # General Python
 *.pyc
@@ -32,9 +32,3 @@ Thumbs.db
 
 # Log files
 *.log
-
-# Root-level
-node_modules/
-dist/
-.env
-.env.*
