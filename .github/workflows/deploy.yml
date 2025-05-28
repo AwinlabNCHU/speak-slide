@@ -31,18 +31,12 @@ jobs:
       - name: Build
         run: |
           cd frontend
-          # Clean any existing build
           rm -rf dist
-          # Install dependencies again to ensure everything is up to date
           npm install
-          # Build the project
           npm run build
-          # Verify the build output
-          echo "Listing contents of dist directory:"
-          ls -la dist/
         env:
           NODE_ENV: production
-          VITE_BASE_URL: "/Vue-practice/"
+          VITE_BASE_URL: "/speak-slide/"
 
       - name: Debug - List all files
         run: |
