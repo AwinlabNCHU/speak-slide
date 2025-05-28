@@ -25,15 +25,14 @@ jobs:
       - name: Install Dependencies
         run: |
           cd frontend
-          npm ci
-          npm install -g @vue/cli
+          npm install
+          npm install -g vite
 
       - name: Build
         run: |
           cd frontend
           rm -rf dist
-          npm install
-          npm run build
+          npx vite build
         env:
           NODE_ENV: production
           VITE_BASE_URL: "/speak-slide/"
