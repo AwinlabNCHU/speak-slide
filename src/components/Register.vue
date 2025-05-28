@@ -68,10 +68,12 @@
 <script>
 import { ref } from 'vue'
 import { mockAuth } from '../mock/auth'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Register',
   setup() {
+    const router = useRouter()
     const email = ref('')
     const username = ref('')
     const password = ref('')
@@ -84,8 +86,8 @@ export default {
 
       try {
         await mockAuth.register(email.value, username.value, password.value)
-        // Redirect to login page after successful registration
-        window.location.href = '/login'
+        // Use Vue Router to redirect to login page
+        router.push('/login')
       } catch (err) {
         error.value = err.message || 'An error occurred during registration'
       } finally {
