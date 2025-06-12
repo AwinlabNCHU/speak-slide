@@ -27,18 +27,27 @@
         </button>
       </nav>
       <!-- Mobile menu -->
-      <transition name="fade">
-        <div v-if="showMenu" class="md:hidden bg-white border-t shadow px-6 py-4 space-y-4">
-          <a href="/#features" @click.prevent="handleNavigation('features')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer">Features</a>
-          <a href="/#pricing" @click.prevent="handleNavigation('pricing')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer">Pricing</a>
-          <a href="/#contact" @click.prevent="handleNavigation('contact')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer">Contact</a>
-          <template v-if="isAuthenticated">
-            <button @click="$emit('logout')" class="w-full bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-semibold shadow transition">Logout</button>
-          </template>
-          <template v-else>
-            <router-link to="/login" class="block text-gray-700 hover:text-red-500 font-medium">Login</router-link>
-            <router-link to="/register" class="w-full bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-semibold shadow transition">Register</router-link>
-          </template>
+      <transition 
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="transform -translate-y-4 opacity-0"
+        enter-to-class="transform translate-y-0 opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="transform translate-y-0 opacity-100"
+        leave-to-class="transform -translate-y-4 opacity-0"
+      >
+        <div v-if="showMenu" class="md:hidden bg-white border-t shadow-lg px-6 py-6 space-y-6">
+          <a href="/#features" @click.prevent="handleNavigation('features')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer py-2">Features</a>
+          <a href="/#pricing" @click.prevent="handleNavigation('pricing')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer py-2">Pricing</a>
+          <a href="/#contact" @click.prevent="handleNavigation('contact')" class="block text-gray-700 hover:text-red-500 font-medium cursor-pointer py-2">Contact</a>
+          <div class="pt-4 border-t border-gray-100">
+            <template v-if="isAuthenticated">
+              <button @click="$emit('logout')" class="w-full bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg font-semibold shadow transition">Logout</button>
+            </template>
+            <template v-else>
+              <router-link to="/login" class="block text-gray-700 hover:text-red-500 font-medium py-2 mb-4">Login</router-link>
+              <router-link to="/register" class="w-full bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg font-semibold shadow transition block text-center">Register</router-link>
+            </template>
+          </div>
         </div>
       </transition>
     </header>
@@ -101,7 +110,7 @@ const handleNavigation = (sectionId) => {
 }
 
 .navbar {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -113,5 +122,18 @@ a {
 /* Add padding to the body to account for fixed navbar */
 :deep(body) {
   padding-top: 4rem;
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 768px) {
+  .navbar nav {
+    padding: 0.75rem 1rem;
+  }
+  
+  button, a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
 }
 </style> 
