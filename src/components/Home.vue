@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col w-full">
     <HeroSection />
     <FeaturesSection :features="features" />
     <PricingSection />
@@ -64,5 +64,8 @@ export default {
 }
 body {
   font-family: 'Inter', Arial, sans-serif;
+}
+section {
+  scroll-snap-align: start;
 }
 </style> 

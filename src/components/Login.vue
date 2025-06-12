@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 mx-auto">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Sign in to your account
@@ -9,15 +9,15 @@
       <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="username" class="sr-only">Username</label>
+            <label for="email" class="sr-only">Email</label>
             <input
-              id="username"
-              v-model="username"
-              name="username"
-              type="text"
+              id="email"
+              v-model="email"
+              name="email"
+              type="email"
               required
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Username"
+              placeholder="Email"
             />
           </div>
           <div>
@@ -55,14 +55,14 @@
 
 <script>
 import { ref } from 'vue'
-import { mockAuth } from '../mock/auth'
+import api from '../plugins/axios'
 import { useRouter } from 'vue-router'
 
 export default {
   name: 'Login',
   setup() {
     const router = useRouter()
-    const username = ref('')
+    const email = ref('')
     const password = ref('')
     const loading = ref(false)
     const error = ref('')
@@ -72,27 +72,22 @@ export default {
       error.value = ''
 
       try {
-        console.log('Attempting login with:', { username: username.value, password: password.value })
-        const response = await mockAuth.login(username.value, password.value)
-        console.log('Login response:', response)
-        const { access_token } = response
-
-        // Store the token
+        const response = await api.post('/api/v1/auth/login', {
+          email: email.value,
+          password: password.value
+        })
+        const { access_token } = response.data
         localStorage.setItem('token', access_token)
-        console.log('Token stored in localStorage')
-        
-        // Use Vue Router to navigate to home page
         router.push('/')
       } catch (err) {
-        console.error('Login error:', err)
-        error.value = err.message || 'An error occurred during login'
+        error.value = err.response?.data?.detail || err.message || 'An error occurred during login'
       } finally {
         loading.value = false
       }
     }
 
     return {
-      username,
+      email,
       password,
       loading,
       error,

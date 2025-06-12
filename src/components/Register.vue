@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 mx-auto">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Create your account
@@ -67,7 +67,7 @@
 
 <script>
 import { ref } from 'vue'
-import { mockAuth } from '../mock/auth'
+import api from '../plugins/axios'
 import { useRouter } from 'vue-router'
 
 export default {
@@ -85,11 +85,14 @@ export default {
       error.value = ''
 
       try {
-        await mockAuth.register(email.value, username.value, password.value)
-        // Use Vue Router to redirect to login page
+        await api.post('/api/v1/auth/register', {
+          email: email.value,
+          username: username.value,
+          password: password.value
+        })
         router.push('/login')
       } catch (err) {
-        error.value = err.message || 'An error occurred during registration'
+        error.value = err.response?.data?.detail || err.message || 'An error occurred during registration'
       } finally {
         loading.value = false
       }

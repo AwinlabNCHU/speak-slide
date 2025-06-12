@@ -5,8 +5,17 @@
 /* Custom styles */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
 }
 
 body {
-  @apply bg-gray-900 text-white;
+  background-color: #fff;
+  color: #111827;
+  overflow-x: hidden;
+}
+
+/* Ensure sections take up full viewport height */
+section {
+  min-height: 100vh;
+  scroll-margin-top: 4rem;
 }
