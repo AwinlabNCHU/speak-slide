@@ -15,10 +15,10 @@ export default defineConfig({
     strictPort: true,
     host: true,
     proxy: {
-      "/api": {
-        target: "http://localhost:8000",
+      "/api/v1": {
+        target: "https://speak-slide-be.onrender.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        secure: false,
       },
     },
   },

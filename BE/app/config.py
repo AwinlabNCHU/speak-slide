@@ -19,7 +19,16 @@ class Settings(BaseSettings):
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./vute.db")
 
     # CORS
-    BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:8000"]
+    BACKEND_CORS_ORIGINS: list[str] = [
+        "http://localhost:8000",
+        "http://localhost:5173",
+        "https://speak-slide-be.onrender.com",
+        "https://speak-slide.onrender.com",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1:3000"
+    ]
 
     class Config:
         case_sensitive = True
