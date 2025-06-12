@@ -43,6 +43,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import api from '../plugins/axios'
 
 const router = useRouter()
 const email = ref('')
@@ -58,29 +59,19 @@ const handleLogin = async () => {
     )
 
     const response = await Promise.race([
-      fetch('https://speak-slide.onrender.com/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          email: email.value,
-          password: password.value,
-        }),
+      api.post('/api/v1/auth/login', {
+        email: email.value,
+        password: password.value,
       }),
       timeoutPromise
     ])
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.detail || 'Login failed')
+    if (response.data.access_token) {
+      localStorage.setItem('token', response.data.access_token)
+      router.push('/')
+    } else {
+      throw new Error('Login failed')
     }
-
-    const data = await response.json()
-    localStorage.setItem('token', data.access_token)
-    router.push('/')
   } catch (error) {
     console.error('Login error:', error)
     alert(error.message === 'Request timeout'
