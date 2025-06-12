@@ -33,6 +33,7 @@ app.add_middleware(
         "http://localhost:5173",  # Local development
         "https://speak-slide.onrender.com",  # Production frontend
         "https://speak-slide-fe.onrender.com",  # Alternative production frontend
+        "https://awinlabnchu.github.io",  # GitHub Pages frontend
     ],
     allow_credentials=True,  # Enable credentials
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
