@@ -1,98 +1,93 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 mx-auto">
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
       <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
       </div>
-      <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
+      <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email" class="sr-only">Email</label>
-            <input
-              id="email"
-              v-model="email"
-              name="email"
-              type="email"
-              required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Email"
-            />
+            <label for="email" class="sr-only">Email address</label>
+            <input id="email" v-model="email" name="email" type="email" required
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+              placeholder="Email address" />
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
-            <input
-              id="password"
-              v-model="password"
-              name="password"
-              type="password"
-              required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Password"
-            />
+            <input id="password" v-model="password" name="password" type="password" required
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+              placeholder="Password" />
           </div>
         </div>
 
         <div>
-          <button
-            type="submit"
-            :disabled="loading"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <span v-if="loading">Loading...</span>
-            <span v-else>Sign in</span>
+          <button type="submit" :disabled="isLoading"
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed">
+            <span v-if="isLoading" class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+            </span>
+            {{ isLoading ? 'Signing in...' : 'Sign in' }}
           </button>
-        </div>
-
-        <div v-if="error" class="text-red-500 text-center">
-          {{ error }}
         </div>
       </form>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
-import api from '../plugins/axios'
 import { useRouter } from 'vue-router'
 
-export default {
-  name: 'Login',
-  setup() {
-    const router = useRouter()
-    const email = ref('')
-    const password = ref('')
-    const loading = ref(false)
-    const error = ref('')
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+const isLoading = ref(false)
 
-    const handleSubmit = async () => {
-      loading.value = true
-      error.value = ''
+const handleLogin = async () => {
+  try {
+    isLoading.value = true
+    // Add a timeout to handle the cold start
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timeout')), 30000)
+    )
 
-      try {
-        const response = await api.post('/api/v1/auth/login', {
+    const response = await Promise.race([
+      fetch('https://speak-slide.onrender.com/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
           email: email.value,
-          password: password.value
-        })
-        const { access_token } = response.data
-        localStorage.setItem('token', access_token)
-        router.push('/')
-      } catch (err) {
-        error.value = err.response?.data?.detail || err.message || 'An error occurred during login'
-      } finally {
-        loading.value = false
-      }
+          password: password.value,
+        }),
+      }),
+      timeoutPromise
+    ])
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.detail || 'Login failed')
     }
 
-    return {
-      email,
-      password,
-      loading,
-      error,
-      handleSubmit
-    }
+    const data = await response.json()
+    localStorage.setItem('token', data.access_token)
+    router.push('/')
+  } catch (error) {
+    console.error('Login error:', error)
+    alert(error.message === 'Request timeout'
+      ? 'The server is taking longer than usual to respond. Please try again in a few moments.'
+      : error.message || 'Login failed. Please try again.')
+  } finally {
+    isLoading.value = false
   }
 }
-</script> 
+</script>

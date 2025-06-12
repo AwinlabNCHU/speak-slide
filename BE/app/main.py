@@ -31,14 +31,18 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # Local development
+        "http://localhost:3000",  # Alternative local development
+        "http://127.0.0.1:5173",  # Local development alternative
+        "http://127.0.0.1:3000",  # Alternative local development
         "https://speak-slide.onrender.com",  # Production frontend
         "https://speak-slide-fe.onrender.com",  # Alternative production frontend
         "https://awinlabnchu.github.io",  # GitHub Pages frontend
     ],
     allow_credentials=True,  # Enable credentials
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+    expose_headers=["*"],  # Expose all headers
+    max_age=3600,  # Cache preflight requests for 1 hour
 )
 
 # Include routers
