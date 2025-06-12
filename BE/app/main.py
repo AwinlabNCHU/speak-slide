@@ -29,10 +29,15 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
-    allow_credentials=False,  # Must be False when allow_origins is ["*"]
-    allow_methods=["*"],
+    allow_origins=[
+        "http://localhost:5173",  # Local development
+        "https://speak-slide.onrender.com",  # Production frontend
+        "https://speak-slide-fe.onrender.com",  # Alternative production frontend
+    ],
+    allow_credentials=True,  # Enable credentials
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Include routers

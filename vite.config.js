@@ -19,6 +19,7 @@ export default defineConfig({
         target: "https://speak-slide-be.onrender.com",
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api\/v1/, "/api/v1"),
       },
     },
   },

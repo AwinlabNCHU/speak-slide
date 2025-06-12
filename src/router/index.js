@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Home from "../components/Home.vue";
@@ -23,7 +23,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory("/speak-slide/"),
+  history: createWebHashHistory("/speak-slide/"),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
